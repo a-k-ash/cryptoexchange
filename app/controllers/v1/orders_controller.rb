@@ -5,7 +5,7 @@ module V1
       order = Order.create!(price: params[:price].to_f, volume: params[:volume].to_f, side: order_side)
       if order.errors.blank?
         OrderTransactionService.perform_transaction(order)
-        render json: order, serializer: V1::OrderSerializer, status: :ok
+        render json: order, except: %i[created_at updated_at]
       else
         render json: {}
       end
